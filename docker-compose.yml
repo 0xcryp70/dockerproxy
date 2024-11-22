@@ -1,0 +1,64 @@
+# docker-compose.yml
+
+version: '3.8'
+
+services:
+  nginx:
+    image: nginx:latest
+    container_name: nginx_proxy
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+    depends_on:
+      - web
+      - registry
+    networks:
+      - webnet
+
+  web:
+    build: .
+    container_name: web_app
+    environment:
+      - REGISTRY_ADDRESS=registry.xcr9.site
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    depends_on:
+      - redis
+    networks:
+      - webnet
+
+  celery_worker:
+    build: .
+    container_name: celery_worker
+    command: celery -A app.celery worker --loglevel=info
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    depends_on:
+      - web
+      - redis
+    networks:
+      - webnet
+
+  redis:
+    image: redis:6-alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - webnet
+
+  registry:
+    image: registry:2
+    container_name: registry
+    volumes:
+      - registry_data:/var/lib/registry
+    networks:
+      - webnet
+
+networks:
+  webnet:
+
+volumes:
+  registry_data:
+

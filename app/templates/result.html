@@ -1,0 +1,21 @@
+<!-- app/templates/result.html -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Processing Result</title>
+</head>
+<body>
+    {% if result == 'success' %}
+        <h1>Image is ready!</h1>
+        <p>New Image Name: <strong>{{ new_image_name }}</strong></p>
+        <p>You can pull the image using the following command:</p>
+        <pre>docker pull {{ new_image_name }}</pre>
+    {% else %}
+        <h1>Error Occurred</h1>
+        <p>{{ new_image_name }}</p>
+    {% endif %}
+    <a href="/">Go Back</a>
+</body>
+</html>
+

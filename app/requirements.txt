@@ -1,0 +1,7 @@
+# app/requirements.txt
+
+flask
+docker
+celery
+redis
+

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Processing Image</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+        }
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+        #status {
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+        #progress-bar-container {
+            width: 80%;
+            background-color: #333333;
+            border-radius: 10px;
+            overflow: hidden;
+            height: 20px;
+            margin-bottom: 20px;
+        }
+        #progress-bar {
+            width: 0%;
+            height: 100%;
+            background-color: #995600;;
+            transition: width 0.3s ease;
+        }
+        pre {
+            background-color: #333333;
+            padding: 10px;
+            border-radius: 5px;
+            color: #e6ad1e;
+            display: inline-block;
+            text-align: left;
+        }
+        a {
+            margin-top: 20px;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            color: #ffffff;
+            background-color: #995600;
+            transition: background-color 0.3s ease;
+        }
+        a:hover {
+            background-color: #633800;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Processing Image</h1>
+    <div id="status">Starting...</div>
+    <div id="progress-bar-container">
+        <div id="progress-bar"></div>
+    </div>
+    <script type="text/javascript">
+        var taskId = "{{ task_id }}";
+        function updateProgress() {
+            $.getJSON('/status/' + taskId, function(data) {
+                if (data.state == 'PENDING') {
+                    $('#status').text('Task pending...');
+                } else if (data.state == 'PROGRESS') {
+                    $('#status').text(data.step);
+                    $('#progress-bar').css('width', data.progress + '%');
+                } else if (data.state == 'SUCCESS') {
+                    $('#status').text('Task completed!');
+                    $('#progress-bar').css('width', '100%');
+                    $('body').append('<p>New Image Name: <strong>' + data.result.new_image_name + '</strong></p>');
+                    $('body').append('<p>You can pull the image using the following command:</p>');
+                    $('body').append('<pre>docker pull ' + data.result.new_image_name + '</pre>');
+                    $('body').append('<a href="/">Go Back</a>');
+                } else {
+                    $('#status').text('Task failed: ' + data.result);
+                }
+
+                if (data.state != 'SUCCESS' && data.state != 'FAILURE') {
+                    setTimeout(updateProgress, 1000);
+                }
+            });
+        }
+        updateProgress();
+    </script>
+</body>
+</html>
+

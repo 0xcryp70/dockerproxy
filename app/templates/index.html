@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xcr Docker Image Proxy</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        input[type="text"] {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            width: 300px;
+            font-size: 1rem;
+            background-color: #333333;
+            color: #ffffff;
+        }
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #995600;;
+            color: #ffffff;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #633800;;
+        }
+	.spaced-text {
+            margin-top: 5em;
+        }
+    </style>
+</head>
+<body>
+    <h1>Enter Docker Image Name</h1>
+    <form method="post">
+        <input type="text" name="image_name" placeholder="e.g., ubuntu" required>
+        <button type="submit">Submit</button>
+    </form>
+    <footer style="margin-top: 50px; text-align: center; font-size: 14px; color: orange;">
+        Powered by XCR &copy; 2024 Parspooyesh Dudes
+    </footer>
+</body>
+</html>
+
