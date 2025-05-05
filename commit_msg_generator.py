@@ -6,10 +6,10 @@ import sys
 import subprocess
 from openai import OpenAI
 
-
+api_key = "-zwoqYyH80ZFeHxMOkVNEO7r7EMy29ZWlDXfiss20EDGfT3BlbkFJGFTeqV8YPdAhxk71OwPHP6B1SBXmwmvt9wGjrLerfmK8OJGA6L4Tb2J1lH_zX7-NAS_T98lm8A"
 def main():
     # Retrieve OpenAI API key
-    api_key = os.getenv("OPENAI_API_KEY")
+    #api_key = os.getenv("OPENAI_API_KEY")
     if not api_key:
         print("Error: OPENAI_API_KEY environment variable is not set.", file=sys.stderr)
         sys.exit(1)
