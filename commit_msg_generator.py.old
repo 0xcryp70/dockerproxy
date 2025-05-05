@@ -24,7 +24,7 @@ def main():
         sys.exit(0)
 
     # If the diff is too large, fall back to a summary (diffstat)
-    max_chars = 100_000  # adjust threshold as needed
+    max_chars = 10_000  # adjust threshold as needed
     if len(raw_diff) > max_chars:
         summary = subprocess.check_output(["git", "diff", "--cached", "--stat"]).decode("utf-8", errors="ignore")
         prompt = (
@@ -53,7 +53,6 @@ def main():
         print(f"OpenAI API error: {e}", file=sys.stderr)
         sys.exit(1)
 
-    # Extract and write commit message
     commit_msg = response.choices[0].message.content.strip()
     with open(sys.argv[1], "w") as msg_file:
         msg_file.write(commit_msg + "\n")
@@ -64,3 +63,4 @@ if __name__ == "__main__":
         print(f"Usage: {sys.argv[0]} <path-to-commit-msg-file>", file=sys.stderr)
         sys.exit(1)
     main()
+
