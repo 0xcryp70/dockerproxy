@@ -1,8 +1,6 @@
 # docker-compose.yml
 
 #version: '3.8'
-#hi test cpmment
-##test comment
 services:
   nginx:
     image: nginx:latest
